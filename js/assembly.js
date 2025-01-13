@@ -217,6 +217,7 @@ function is_valid_instruction(line) {
 		if (instruction.length > 0){
 			if ( ((instruction[0] === "leaw") && (instruction.length == 3)) ||                                     
 			((instruction[0] === "movw") && (instruction.length >= 3) && (instruction.length <= 5)) ||
+			((instruction[0] === "addw") && (instruction.length >= 4) && (instruction.length <= 6)) ||
 			((instruction[0] === "subw") && (instruction.length >= 4) && (instruction.length <= 6)) ||
 			((instruction[0] === "rsubw") && (instruction.length >= 4) && (instruction.length <= 6)) ||        
 			((instruction[0] === "andw") && (instruction.length >= 4) && (instruction.length <= 6)) ||
