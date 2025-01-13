@@ -213,7 +213,7 @@ function is_valid_instruction(line) {
 			return instruction;
 		} 
 	} else{
-		instruction = instruction.replace(",", " ").split(/\s+/);
+		instruction = instruction.replaceAll(",", " ").split(/\s+/);
 		if (instruction.length > 0){
 			if ( ((instruction[0] === "leaw") && (instruction.length == 3)) ||                                     
 			((instruction[0] === "movw") && (instruction.length >= 3) && (instruction.length <= 5)) ||
