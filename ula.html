@@ -1,0 +1,239 @@
+---
+permalink: /ula.html
+layout: default
+---
+
+<!DOCTYPE HTML>
+<!--
+Developed by @renan-tr
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ULA</title>
+
+  <style>
+	.container {
+	position: relative;
+	text-align: center;
+	color: black;
+	}
+
+	.xinput {
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	transform: translate(-50%, -50%);
+	}
+	.yinput {
+	position: absolute;
+	top: 70%;
+	left: 10%;
+	transform: translate(-50%, -50%);
+	}
+	.zx_out {
+	position: absolute;
+	top: 3%;
+	left: 31%;
+	transform: translate(-50%, -50%);
+	}
+	.zy_out {
+	position: absolute;
+	top: 75%;
+	left: 31%;
+	transform: translate(-50%, -50%);
+	}
+	.nx_out {
+	position: absolute;
+	top: 3%;
+	left: 46%;
+	transform: translate(-50%, -50%);
+	}
+	.ny_out {
+	position: absolute;
+	top: 75%;
+	left: 46%;
+	transform: translate(-50%, -50%);
+	}
+	.and_out {
+	position: absolute;
+	top: 8%;
+	left: 58%;
+	transform: translate(-50%, -50%);
+	}
+	.add_out {
+	position: absolute;
+	top: 70%;
+	left: 58%;
+	transform: translate(-50%, -50%);
+	}
+	.mux_out {
+	position: absolute;
+	top: 33%;
+	left: 70%;
+	transform: translate(-50%, -50%);
+	}
+	.no_out {
+	position: absolute;
+	top: 38%;
+	left: 87%;
+	transform: translate(-50%, -50%);
+	}
+
+	.nx {
+	position: absolute;
+	top: 32%;
+	left: 22.8%;
+	transform: translate(-50%, -50%);
+	}
+	.ny {
+	position: absolute;
+	top: 93%;
+	left: 22.8%;
+	transform: translate(-50%, -50%);
+	}
+	.zx {
+	position: absolute;
+	top: 32%;
+	left: 39.3%;
+	transform: translate(-50%, -50%);
+	}
+	.zy {
+	position: absolute;
+	top: 93%;
+	left: 39.3%;
+	transform: translate(-50%, -50%);
+	}
+	.f {
+	position: absolute;
+	top: 70%;
+	left: 65.3%;
+	transform: translate(-50%, -50%);
+	}
+	.no {
+	position: absolute;
+	top: 13%;
+	left: 77%;
+	transform: translate(-50%, -50%);
+	}
+	.zr {
+	position: absolute;
+	top: 101%;
+	left: 75%;
+	transform: translate(-50%, -50%);
+	}
+	.ng {
+	position: absolute;
+	top: 101%;
+	left: 79.5%;
+	transform: translate(-50%, -50%);
+	}
+
+	/* Create six equal columns that floats next to each other */
+	.column {
+	  float: left;
+	  width: 16.67%;
+	  padding: 0px;
+	  height: 15%;
+	  overflow: auto
+	}
+	</style>
+</head>
+<body>
+ 
+	<h2>ULA</h2>
+
+	<form id="form">
+		<div class="row">
+			<div class="column">
+				<table>
+					<tr>
+						<td><b>X</b></td>
+						<td><input type="textfield" id="X" name="X" value="0000000000000000" onchange="update_values()"></label></td>
+					</tr>
+					<tr>
+						<td><b>Y</b></td>
+						<td><input type="textfield" id="Y" name="Y" value="0000000000000000" onchange="update_values()"></label></td>
+					</tr>
+				</table> 
+			</div>
+			<div class="column">
+				<table>
+					<tr>
+						<td><b>zx</b></td>
+						<td><input type="checkbox" id="zx" name="zx" onchange="update_values()"></label></td>
+					</tr>
+					<tr>
+						<td><b>zy</b></td>
+						<td><input type="checkbox" id="zy" name="zy" onchange="update_values()"></label></td>
+					</tr>
+				</table> 
+			</div>
+			<div class="column">
+				<table>
+					<tr>
+						<td><b>nx</b></td>
+						<td><input type="checkbox" id="nx" name="nx" onchange="update_values()"></label></td>
+					</tr>
+					<tr>
+						<td><b>ny</b></td>
+						<td><input type="checkbox" id="ny" name="ny" onchange="update_values()"></label></td>
+					</tr>
+				</table> 
+			</div>
+			<div class="column">
+				<table>
+					<tr>
+						<td><b>f</b></td>
+						<td><input type="checkbox" id="f" name="f" onchange="update_values()"></label></td>
+					</tr>
+					<tr>
+						<td><b>no</b></td>
+						<td><input type="checkbox" id="no" name="no" onchange="update_values()"></label></td>
+					</tr>
+				</table> 
+			</div>
+			<div class="column">
+				<table>
+					<tr>
+						<td><b>zr</b></td>
+						<td><input type="checkbox" id="zr" name="zr" disabled="true"></label></td>
+					</tr>
+					<tr>
+						<td><b>ng</b></td>
+						<td><input type="checkbox" id="ng" name="ng" disabled="true"></label></td>
+					</tr>
+				</table> 
+			</div>
+		</div>
+		<br>
+		<br>
+		<br><br><br>
+		<div class="container">
+			<img src="assets/img/ula_v2.png" style="width:70%;">
+			<div class="xinput"><label id="X_input">0000000000000000</label></div>
+			<div class="yinput"><label id="Y_input">0000000000000000</label></div>
+			<div class="zx_out"><label id="zx_out">0x0000</label></div>
+			<div class="zy_out"><label id="zy_out">0x0000</label></div>
+			<div class="nx_out"><label id="nx_out">0x0000</label></div>
+			<div class="ny_out"><label id="ny_out">0x0000</label></div>
+			<div class="and_out"><label id="and_out">0x0000</label></div>
+			<div class="add_out"><label id="add_out">0x0000</label></div>
+			<div class="mux_out"><label id="mux_out">0x0000</label></div>
+			<div class="no_out"><label id="no_out">0x0000</label></div>
+
+			<div class="nx"><label id="nx_in">0</label></div>
+			<div class="ny"><label id="ny_in">0</label></div>
+			<div class="zx"><label id="zx_in">0</label></div>
+			<div class="zy"><label id="zy_in">0</label></div>
+			<div class="f"><label id="f_in">0</label></div>
+			<div class="no"><label id="no_in">0</label></div>
+			<div class="zr"><label id="zr_out">1</label></div>
+			<div class="ng"><label id="ng_out">0</label></div>
+		</div> 
+	</form>
+	
+	<script src="js/ula.js"></script>
+
+</body>
+</html>
