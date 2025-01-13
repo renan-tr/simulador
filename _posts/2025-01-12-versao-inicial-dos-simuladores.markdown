@@ -7,8 +7,8 @@ categories: simuladores
 
 ## Simuladores
 
-![Unidade Lógica Aritmética](https://renan-tr.github.io/simulador/ula.html)
+[Unidade Lógica Aritmética](https://renan-tr.github.io/simulador/ula)
 
-![Assembly](https://renan-tr.github.io/simulador/assembly.html)
+[Assembly](https://renan-tr.github.io/simulador/assembly)
 
-![VM](https://renan-tr.github.io/simulador/vm.html)
+[VM](https://renan-tr.github.io/simulador/vm)
