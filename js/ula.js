@@ -7,23 +7,31 @@ function update_values(){
 
 	if (document.getElementById("zx").checked){
 		zx_out = 0;
+		zx = 1;
 	} else {
 		zx_out = x_value;
+		zx = 0;
 	}
 	if (document.getElementById("zy").checked){
 		zy_out = 0;
+		zy = 1;
 	} else {
 		zy_out = y_value;
+		zy = 0;
 	}
 	if (document.getElementById("nx").checked){
 		nx_out = 65536 - zx_out -1;
+		nx = 1;
 	} else {
 		nx_out = zx_out;
+		nx = 0;
 	}
 	if (document.getElementById("ny").checked){
 		ny_out = 65536 - zy_out -1;
+		ny = 1;
 	} else {
 		ny_out = zy_out;
+		ny = 0;
 	}
 	add_out = nx_out + ny_out;
 	if (add_out > 65535){
@@ -32,13 +40,17 @@ function update_values(){
 	and_out = nx_out & ny_out;
 	if (document.getElementById("f").checked){
 		mux_out = add_out;
+		f = 1;
 	} else {
 		mux_out = and_out;
+		f = 0;
 	}
 	if (document.getElementById("no").checked){
 		no_out = 65536 - mux_out -1;
+		no = 1;
 	} else {
 		no_out = mux_out;
+		no = 0;
 	}
 	if (no_out > 32768){
 		ng = 1;
