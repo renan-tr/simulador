@@ -2,7 +2,7 @@ const no_RAM = 100;
 var code = ["leaw $1, %A"];
 const commands = ["leaw","movw","addw","subw","rsubw","andw","orw", "incw", "decw", "negw", "notw", "jmp","jle", "jge", "jne", "jg", "jl", "je","nop"];
 const RAM = new Uint16Array(16*1024+4800+2);
-let regA = 0, regD = 0, regPC = 0;
+let regA = 0, regD = 0, regPC = -1;
 let instruction_count = 0;
 let labels = new Map();
 let vars = new Map();
@@ -80,7 +80,7 @@ function run_code(){
 }
 
 function run_line(){
-	if (regPC == 0){
+	if (regPC == -1){
 		//Reading
 		code = document.getElementById("textarea").value.split(/\n/);
 		for(i=0;i<no_RAM;i++) {
@@ -98,6 +98,7 @@ function run_line(){
 		RAM[21185] = parseInt(SW, 2);
 
 		read_code();
+		regPC = 0;
 	}		
 
 	//executing		
@@ -124,7 +125,7 @@ function run_line(){
 }
 
 function reset_values(){
-	regA = 0, regD = 0,	regPC = 0;
+	regA = 0, regD = 0,	regPC = -1;
 	instruction_count = 0, line_count = 0;
 	labels = new Map();
 	vars = new Map();
@@ -511,3 +512,4 @@ function save_value(line_list, pos_init, value) {
 		}
 	} 		
 }
+

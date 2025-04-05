@@ -198,7 +198,7 @@ function read_code(){
 				if (labels.has(label[1])){
 					alert("Label already exists: " + element);
 				} else {
-					labels.set(label,line_count);
+					labels.set(label[1],line_count);
 					line_number.push('L');
 				}
 			}
