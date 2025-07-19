@@ -103,28 +103,28 @@ function run_line(){
 			let valor = document.getElementById("RAM"+i).value;
 			RAM[i] = parseInt(valor, 2);
 		}
-		let SW = "000000";
-		for(i=10;i>0;i--) {
-			if (document.getElementById("SW"+i).checked){
-				SW = SW + "1";
-			} else {
-				SW = SW + "0";
-			}		
-		}
-		let GPI = "";
-		for(i=16;i>0;i--) {
-			if (document.getElementById("GPI"+i).checked){
-				GPI = GPI + "1";
-			} else {
-				GPI = GPI + "0";
-			}		
-		}
-		RAM[16385] = parseInt(SW, 2);
-		RAM[16387] = parseInt(GPI, 2);
 
 		read_code();
 		regPC = 0;
-	}		
+	}	
+	let SW = "000000";
+	for(i=10;i>0;i--) {
+		if (document.getElementById("SW"+i).checked){
+			SW = SW + "1";
+		} else {
+			SW = SW + "0";
+		}		
+	}
+	let GPI = "";
+	for(i=16;i>0;i--) {
+		if (document.getElementById("GPI"+i).checked){
+			GPI = GPI + "1";
+		} else {
+			GPI = GPI + "0";
+		}		
+	}
+	RAM[16385] = parseInt(SW, 2);
+	RAM[16387] = parseInt(GPI, 2);	
 
 	//executing		
 	if (line_number.indexOf(regPC) != -1){
@@ -138,7 +138,7 @@ function run_line(){
 	}
 	document.getElementById("regD_value").innerText = regD.toString(2).padStart(16, '0');
 	document.getElementById("regA_value").innerText = regA.toString(2).padStart(16, '0');
-	let LEDs = RAM[21184].toString(2).padStart(16, '0');
+	let LEDs = RAM[16384].toString(2).padStart(16, '0');
 	for(i=1;i<=10;i++) {
 		if (LEDs.charAt(16-i) == "0"){
 			document.getElementById("LED"+i).checked = false;
