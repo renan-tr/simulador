@@ -1,0 +1,154 @@
+---
+permalink: /assembly-lite.html
+layout: single
+---
+
+<!DOCTYPE HTML>
+<!--
+Developed by @renan-tr
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Assembly Simulator-lite</title>
+
+  <style>
+	* {
+	  box-sizing: border-box;
+	}
+	
+	/* Create three equal columns that floats next to each other */
+	.column {
+	  float: left;
+	  width: 33.33%;
+	  padding: 0px;
+	  height: 75vh;
+	  overflow: auto
+	}
+	
+	/* Clear floats after the columns */
+	.row:after {
+	  content: "";
+	  display: table;
+	  clear: both;
+	}
+	
+	textarea
+	{
+	  height: 99%;
+	  width: 98%;
+	  padding:1%;
+	  border:3px solid #999999;
+	}
+	.boxsizingBorder
+	{
+	  border:1px solid #999999;
+	  margin:0px 0;
+	  padding:3px;
+	}
+	.tablebody {
+	  height: 85%;
+	  overflow: auto
+	}
+	</style>
+</head>
+<body>
+ 
+	<h2>Z01 Assembly Simulator</h2>
+
+	<form id="form">
+	
+		<div class="row">
+			<div class="column" style="background-color:#aaa;">
+				<textarea name="message" rows="25" id="textarea">; Code starts here</textarea>
+			</div>
+			<div class="column" style="background-color:#bbb;">
+				<h3>RAM</h3>
+			<div class="tablebody">
+			<table id="tabela"></table>  
+			</div> 
+			</div>
+			<div class="column" style="background-color:#ccc;">
+			<b>Last executed line:</b>
+			<label id="last_line"></label>
+			<p style="font-size:16px; "> <b>Registers:</b></p>
+				<table>
+					<tr>
+					  <td><b>Reg D</b></td>
+					  <td><label id="regD_value"></label></td>
+					</tr>
+					<tr>
+					  <td><b>Reg A</b></td>
+					  <td><label id="regA_value"></label></td>
+					</tr>
+				</table>  
+				<br>
+			<p style="font-size:16px; "> <b>SWs</b></p>
+			<input type="checkbox" id="SW10" name="SW10" value="SW10">
+			<input type="checkbox" id="SW9" name="SW9" value="SW9">
+			<input type="checkbox" id="SW8" name="SW8" value="SW8">
+			<input type="checkbox" id="SW7" name="SW7" value="SW7">
+			<input type="checkbox" id="SW6" name="SW6" value="SW6">
+			<input type="checkbox" id="SW5" name="SW5" value="SW5">
+			<input type="checkbox" id="SW4" name="SW4" value="SW4">
+			<input type="checkbox" id="SW3" name="SW3" value="SW3">
+			<input type="checkbox" id="SW2" name="SW2" value="SW2">
+			<input type="checkbox" id="SW1" name="SW1" value="SW1">
+			<p style="font-size:16px; "> <b>LEDs</b></p>
+			<input type="checkbox" id="LED10" name="LED10" value="LED10" disabled="True">
+			<input type="checkbox" id="LED9" name="LED9" value="LED9" disabled="True">
+			<input type="checkbox" id="LED8" name="LED8" value="LED8" disabled="True">
+			<input type="checkbox" id="LED7" name="LED7" value="LED7" disabled="True">
+			<input type="checkbox" id="LED6" name="LED6" value="LED6" disabled="True">
+			<input type="checkbox" id="LED5" name="LED5" value="LED5" disabled="True">
+			<input type="checkbox" id="LED4" name="LED4" value="LED4" disabled="True">
+			<input type="checkbox" id="LED3" name="LED3" value="LED3" disabled="True">
+			<input type="checkbox" id="LED2" name="LED2" value="LED2" disabled="True">
+			<input type="checkbox" id="LED1" name="LED1" value="LED1" disabled="True">
+			<p style="font-size:16px; "> <b>GPIO IN</b></p>
+			<input type="checkbox" id="GPI16" name="GPI16" value="GPI16">
+			<input type="checkbox" id="GPI15" name="GPI15" value="GPI15">
+			<input type="checkbox" id="GPI14" name="GPI14" value="GPI14">
+			<input type="checkbox" id="GPI13" name="GPI13" value="GPI13">
+			<input type="checkbox" id="GPI12" name="GPI12" value="GPI12">
+			<input type="checkbox" id="GPI11" name="GPI11" value="GPI11">
+			<input type="checkbox" id="GPI10" name="GPI10" value="GPI10">
+			<input type="checkbox" id="GPI9" name="GPI9" value="GPI9">
+			<input type="checkbox" id="GPI8" name="GPI8" value="GPI8">
+			<input type="checkbox" id="GPI7" name="GPI7" value="GPI7">
+			<input type="checkbox" id="GPI6" name="GPI6" value="GPI6">
+			<input type="checkbox" id="GPI5" name="GPI5" value="GPI5">
+			<input type="checkbox" id="GPI4" name="GPI4" value="GPI4">
+			<input type="checkbox" id="GPI3" name="GPI3" value="GPI3">
+			<input type="checkbox" id="GPI2" name="GPI2" value="GPI2">
+			<input type="checkbox" id="GPI1" name="GPI1" value="GPI1">
+			<p style="font-size:16px; "> <b>GPIO OUT</b></p>
+			<input type="checkbox" id="GPO16" name="GPO16" value="GPO16" disabled="True">
+			<input type="checkbox" id="GPO15" name="GPO15" value="GPO15" disabled="True">
+			<input type="checkbox" id="GPO14" name="GPO14" value="GPO14" disabled="True">
+			<input type="checkbox" id="GPO13" name="GPO13" value="GPO13" disabled="True">
+			<input type="checkbox" id="GPO12" name="GPO12" value="GPO12" disabled="True">
+			<input type="checkbox" id="GPO11" name="GPO11" value="GPO11" disabled="True">
+			<input type="checkbox" id="GPO10" name="GPO10" value="GPO10" disabled="True">
+			<input type="checkbox" id="GPO9" name="GPO9" value="GPO9" disabled="True">
+			<input type="checkbox" id="GPO8" name="GPO8" value="GPO8" disabled="True">
+			<input type="checkbox" id="GPO7" name="GPO7" value="GPO7" disabled="True">
+			<input type="checkbox" id="GPO6" name="GPO6" value="GPO6" disabled="True">
+			<input type="checkbox" id="GPO5" name="GPO5" value="GPO5" disabled="True">
+			<input type="checkbox" id="GPO4" name="GPO4" value="GPO4" disabled="True">
+			<input type="checkbox" id="GPO3" name="GPO3" value="GPO3" disabled="True">
+			<input type="checkbox" id="GPO2" name="GPO2" value="GPO2" disabled="True">
+			<input type="checkbox" id="GPO1" name="GPO1" value="GPO1" disabled="True">
+			</div>
+		  </div>
+		
+		<br><br>
+		<input type="button" id="Run" value="Run" onclick="run_code()"/>
+		<input type="button" id="Line" value="Line" onclick="run_line()"/>	
+		<input type="button" id="Reset" value="Reset" onclick="reset_values()"/>	
+	  </form>
+
+    <script src="js/assembly-lite.js"></script>
+
+</body>
+</html>
