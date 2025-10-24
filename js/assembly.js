@@ -331,14 +331,14 @@ function execute_line(line) {
 				value1 = get_value(mnemnonic, 1);
 				value2 = get_value(mnemnonic, 2);
 				new_value = value1 & value2;
-				self.save_value(line_list, 3, value)
+				self.save_value(mnemnonic, 3, value)
 				regPC += 1;
 				break;
 			case "orw":
 				value1 = get_value(mnemnonic, 1);
 				value2 = get_value(mnemnonic, 2);
 				new_value = value1 | value2;
-				self.save_value(line_list, 3, value)
+				self.save_value(mnemnonic, 3, value)
 				regPC += 1;
 				break;
 			case "incw":
