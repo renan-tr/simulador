@@ -349,7 +349,7 @@ function execute_line(line) {
 				regPC += 1;
 				break;
 			case "lt":
-				if ((RAM[SP-2] - RAM[SP-1]) >= 32768) {
+				if ((RAM[SP-2] - RAM[SP-1]) < 0) {
 					RAM[SP-2] = 65535;
 				} else {
 					RAM[SP-2] = 0;
