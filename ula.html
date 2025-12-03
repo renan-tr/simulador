@@ -137,6 +137,16 @@ Developed by @renan-tr
 	  height: 15%;
 	  overflow: auto
 	}
+
+	.canvas-container {
+        position: relative;
+		width: 1200px; 
+        height: 320px; 
+    }
+
+    #DiagramaCanvas {
+        display: block;
+    }
 	</style>
 </head>
 <body>
@@ -193,44 +203,12 @@ Developed by @renan-tr
 					</tr>
 				</table> 
 			</div>
-			<div class="column">
-				<table>
-					<tr>
-						<td><b>zr</b></td>
-						<td><input type="checkbox" id="zr" name="zr" disabled="true"></label></td>
-					</tr>
-					<tr>
-						<td><b>ng</b></td>
-						<td><input type="checkbox" id="ng" name="ng" disabled="true"></label></td>
-					</tr>
-				</table> 
-			</div>
 		</div>
 		<br>
 		<br>
-		<br><br><br>
-		<div class="container">
-			<img src="assets/img/ula_v2.png" style="width:70%;">
-			<div class="xinput"><label id="X_input">0000000000000000</label></div>
-			<div class="yinput"><label id="Y_input">0000000000000000</label></div>
-			<div class="zx_out"><label id="zx_out">0x0000</label></div>
-			<div class="zy_out"><label id="zy_out">0x0000</label></div>
-			<div class="nx_out"><label id="nx_out">0x0000</label></div>
-			<div class="ny_out"><label id="ny_out">0x0000</label></div>
-			<div class="and_out"><label id="and_out">0x0000</label></div>
-			<div class="add_out"><label id="add_out">0x0000</label></div>
-			<div class="mux_out"><label id="mux_out">0x0000</label></div>
-			<div class="no_out"><label id="no_out">0x0000</label></div>
-
-			<div class="nx"><label id="nx_in">0</label></div>
-			<div class="ny"><label id="ny_in">0</label></div>
-			<div class="zx"><label id="zx_in">0</label></div>
-			<div class="zy"><label id="zy_in">0</label></div>
-			<div class="f"><label id="f_in">0</label></div>
-			<div class="no"><label id="no_in">0</label></div>
-			<div class="zr"><label id="zr_out">1</label></div>
-			<div class="ng"><label id="ng_out">0</label></div>
-		</div> 
+		<div class="canvas-container">
+			<canvas id="DiagramaCanvas" width="1200" height="320"></canvas>
+		</div>
 	</form>
 	
 	<script src="js/ula.js"></script>
