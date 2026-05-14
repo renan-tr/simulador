@@ -62,7 +62,9 @@ function run_code(){
 	}
 	RAM[16385] = parseInt(SW, 2);
 	RAM[16387] = parseInt(GPI, 2);
-	RAM[0] = 256;
+	if (RAM[0] < 256){
+		RAM[0] = 256;
+	}
 	
 	//executing
 	read_code();	
@@ -107,7 +109,9 @@ function run_line(){
 			RAM[i] = parseInt(valor, 2);
 		}
 		
-		RAM[0] = 256;
+		if (RAM[0] < 256){
+		    RAM[0] = 256;
+	    }
 
 		read_code();
 		regPC = functions.get("Main.main");
