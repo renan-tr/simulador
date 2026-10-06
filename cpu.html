@@ -7,104 +7,1039 @@ layout: single
 <!--
 Developed by @renan-tr
 -->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Assembly Simulator-lite</title>
+<html lang="en"> 
+<head> 
+  <meta charset="utf-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>Z01 CPU Simulator</title> <style> 
+  /* ========================================================= Z01 CPU SIMULATOR Dark electronics laboratory / hardware interface ========================================================= */
 
-  <style>
-	* {
-	  box-sizing: border-box;
-	}
-	
-	/* Create three equal columns that floats next to each other */
-	.column {
-	  float: left;
-	  width: 25%;
-	  padding: 0px;
-	  height: 75vh;
-	  overflow: auto
-	}
-	.column2 {
-	  float: left;
-	  width: 600px;
-	  padding: 0px;
-	  height: 75vh;
-	  overflow: auto
-	}
-	
-	/* Clear floats after the columns */
-	.row:after {
-	  content: "";
-	  display: table;
-	  clear: both;
-	}
-	
-	textarea
-	{
-	  height: 99%;
-	  width: 98%;
-	  padding:1%;
-	  border:3px solid #999999;
-	}
-	.boxsizingBorder
-	{
-	  border:1px solid #999999;
-	  margin:0px 0;
-	  padding:3px;
-	}
-	.tablebody {
-	  height: 85%;
-	  overflow: auto
-	}
+* {
+  box-sizing: border-box;
+}
 
-	.canvas-container {
-        position: relative;
-		width: 600px; 
-        height: 280px; 
-    }
+:root {
+  --bg: #070a0d;
 
-    #DiagramaCanvas {
-        display: block;
-    }
-	</style>
-</head>
-<body>
- 
-	<h2>Z01 CPU Simulator</h2>
+  --panel: #10161b;
+  --panel-light: #182128;
+  --panel-dark: #0b1014;
 
-	<form id="form">
-	
-		<div class="row">
-			<div class="column" style="background-color:#aaa;">
-				<textarea name="message" rows="25" id="textarea"> </textarea>
-			</div>
+  --border: #2b3942;
+  --border-light: #43545e;
 
-			<div class="column2" style="background-color:#ccc;">
-			<b>Last executed operation:</b>
-			<label id="last_line"></label>
-			<p style="font-size:16px; "> <b>ALU Operation:</b> <label id="alu_op"></label></p>
-				
-				<div class="canvas-container">
-					<canvas id="DiagramaCanvas" width="600" height="280"></canvas>
-				</div>
-			</div>
+  --text: #d8e1e6;
+  --muted: #71838d;
 
+  --green: #39ff88;
+  --green-dark: #17683b;
 
-			<div class="column" style="background-color:#bbb;">
-				<h3>RAM</h3>
-			<div class="tablebody">
-			<table id="tabela"></table>  
-			</div> 
-			</div>
-			
-		  </div>
-		
-		<br><br>
-		<input type="button" id="Run" value="Run" onclick="run_code()"/>
-		<input type="button" id="Line" value="Line" onclick="run_line()"/>	
-		<input type="button" id="Reset" value="Reset" onclick="reset_values()"/>	
-	  </form>
+  --cyan: #39e6ff;
+  --blue: #43b9ff;
+  --yellow: #ffd447;
+  --red: #ff4646;
+
+  --shadow:
+    0 8px 25px rgba(0, 0, 0, .45),
+    inset 0 1px 0 rgba(255, 255, 255, .025);
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  padding: 18px;
+
+  background:
+    radial-gradient(
+      ellipse at top,
+      #18242c 0%,
+      #0b1014 42%,
+      #050708 100%
+    );
+
+  color: var(--text);
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+
+.app {
+  width: 100%;
+  max-width: 1700px;
+
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 14px;
+  padding: 10px 16px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #19242c,
+      #10171c
+    );
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  box-shadow: var(--shadow);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.cpu-chip {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #222c32 0,
+      #222c32 3px,
+      #151d22 3px,
+      #151d22 6px
+    );
+
+  border: 2px solid #4b5d67;
+  border-radius: 4px;
+
+  color: var(--cyan);
+
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: bold;
+
+  box-shadow:
+    inset 0 0 12px #000,
+    0 0 12px rgba(57, 230, 255, .12);
+}
+
+.title {
+  margin: 0;
+
+  color: #edf4f7;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-family: monospace;
+  font-size: 10px;
+
+  letter-spacing: .7px;
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--green);
+
+  font-family: monospace;
+  font-size: 10px;
+
+  letter-spacing: 1px;
+}
+
+.system-status-led {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: var(--green);
+
+  box-shadow:
+    0 0 5px var(--green),
+    0 0 12px rgba(57, 255, 136, .5);
+}
+
+/* =========================================================
+   MAIN CPU BOARD
+   ========================================================= */
+
+.board {
+  display: grid;
+
+  grid-template-columns:
+    minmax(300px, 1fr)
+    minmax(520px, 1.8fr)
+    minmax(280px, .9fr);
+
+  gap: 14px;
+
+  align-items: stretch;
+}
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.panel {
+  min-width: 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--panel-light),
+      var(--panel)
+    );
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  box-shadow: var(--shadow);
+
+  overflow: hidden;
+}
+
+.panel-header {
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 13px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #1b252d,
+      #12191f
+    );
+
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-title {
+  margin: 0;
+
+  color: #cbd6dc;
+
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.panel-tag {
+  color: #536570;
+
+  font-family: monospace;
+  font-size: 9px;
+}
+
+/* =========================================================
+   SOURCE CODE PANEL
+   ========================================================= */
+
+.code-panel {
+  height: 72vh;
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.code-body {
+  flex: 1;
+  min-height: 0;
+}
+
+textarea {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 450px;
+
+  padding: 15px;
+
+  resize: none;
+
+  border: 0;
+  outline: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      #080d11,
+      #0b1116
+    );
+
+  color: #baffd1;
+
+  font-family:
+    "Courier New",
+    Courier,
+    monospace;
+
+  font-size: 14px;
+  line-height: 1.55;
+
+  caret-color: var(--green);
+
+  tab-size: 4;
+}
+
+textarea::selection {
+  background: #14572f;
+}
+
+textarea:focus {
+  box-shadow:
+    inset 0 0 0 1px rgba(57, 255, 136, .35);
+}
+
+/* =========================================================
+   CPU / ALU PANEL
+   ========================================================= */
+
+.cpu-panel {
+  height: 72vh;
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.cpu-body {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 0;
+
+  padding: 14px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #111b21 0%,
+      #0b1115 75%
+    );
+}
+
+/* =========================================================
+   EXECUTION INFORMATION
+   ========================================================= */
+
+.section {
+  margin-bottom: 14px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin: 0 0 7px;
+
+  color: #81939d;
+
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.section-title::before {
+  content: "";
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--cyan);
+
+  box-shadow: 0 0 7px var(--cyan);
+}
+
+.execution-display {
+  min-height: 40px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 8px 11px;
+
+  background: #070b0e;
+
+  border: 1px solid #293740;
+  border-radius: 4px;
+
+  color: var(--green);
+
+  font-family: monospace;
+  font-size: 12px;
+
+  box-shadow:
+    inset 0 0 15px rgba(0, 0, 0, .6);
+}
+
+/* =========================================================
+   ALU DISPLAY
+   ========================================================= */
+
+.alu-display {
+  display: flex;
+  align-items: center;
+
+  min-height: 38px;
+
+  padding: 7px 11px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #111a20,
+      #080d11
+    );
+
+  border: 1px solid #2d3c45;
+  border-radius: 4px;
+}
+
+.alu-label {
+  margin-right: 10px;
+
+  color: #657883;
+
+  font-family: monospace;
+  font-size: 10px;
+}
+
+#alu_op {
+  color: var(--yellow);
+
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+
+  text-shadow:
+    0 0 7px rgba(255, 212, 71, .35);
+}
+
+/* =========================================================
+   CPU DIAGRAM / CANVAS
+   ========================================================= */
+
+.diagram-wrapper {
+  flex: 1;
+
+  min-height: 280px;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      #101a20 0%,
+      #080d11 75%
+    );
+
+  border: 1px solid #293740;
+  border-radius: 5px;
+
+  box-shadow:
+    inset 0 0 25px rgba(0, 0, 0, .55);
+}
+
+.diagram-wrapper::before {
+  content: "CPU DATA PATH";
+
+  position: absolute;
+
+  top: 8px;
+  left: 10px;
+
+  color: #40535e;
+
+  font-family: monospace;
+  font-size: 8px;
+
+  letter-spacing: 1px;
+}
+
+.canvas-container {
+  position: relative;
+
+  width: 600px;
+  max-width: 100%;
+
+  height: 280px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#DiagramaCanvas {
+  display: block;
+
+  max-width: 100%;
+  height: auto;
+
+  background: transparent;
+}
+
+/* =========================================================
+   RAM PANEL
+   ========================================================= */
+
+.ram-panel {
+  height: 72vh;
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.tablebody {
+  flex: 1;
+
+  overflow: auto;
+
+  background: #090e12;
+}
+
+#tabela {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  color: #b9c7ce;
+
+  font-family: monospace;
+  font-size: 12px;
+}
+
+#tabela th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  padding: 8px;
+
+  background: #19242c;
+
+  color: var(--cyan);
+
+  border-bottom: 1px solid var(--border-light);
+
+  text-align: left;
+}
+
+#tabela td {
+  padding: 6px 8px;
+
+  border-bottom: 1px solid #192229;
+}
+
+#tabela tr:hover td {
+  background: #162129;
+
+  color: white;
+}
+
+/* =========================================================
+   CONTROL BAR
+   ========================================================= */
+
+.controls {
+  display: flex;
+
+  justify-content: center;
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.controls input {
+  min-width: 110px;
+
+  padding: 10px 20px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #232e36,
+      #11171c
+    );
+
+  border: 1px solid #3c4c56;
+  border-radius: 4px;
+
+  color: #cbd5da;
+
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 3px 8px rgba(0,0,0,.4);
+
+  transition: .12s;
+}
+
+.controls input:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #2c3a43,
+      #172026
+    );
+
+  border-color: #607581;
+
+  color: white;
+}
+
+.controls input:active {
+  transform: translateY(1px);
+}
+
+#Run {
+  color: var(--green);
+
+  border-color: #286b46;
+}
+
+#Line {
+  color: var(--yellow);
+
+  border-color: #665723;
+}
+
+#Reset {
+  color: #ff7777;
+
+  border-color: #672d2d;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 10px;
+
+  color: #4e616b;
+
+  font-family: monospace;
+  font-size: 9px;
+}
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080c0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2c3a43;
+
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #435661;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1250px) {
+
+  .board {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cpu-panel {
+    grid-column: 1 / -1;
+
+    height: 55vh;
+  }
+
+  .code-panel,
+  .ram-panel {
+    height: 55vh;
+  }
+}
+
+@media (max-width: 750px) {
+
+  body {
+    padding: 8px;
+  }
+
+  .header {
+    padding: 9px 11px;
+  }
+
+  .cpu-chip {
+    width: 38px;
+    height: 38px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .subtitle {
+    font-size: 8px;
+  }
+
+  .system-status {
+    display: none;
+  }
+
+  .board {
+    grid-template-columns: 1fr;
+  }
+
+  .cpu-panel {
+    grid-column: auto;
+  }
+
+  .code-panel,
+  .cpu-panel,
+  .ram-panel {
+    height: 500px;
+    min-height: 400px;
+  }
+
+  .controls {
+    flex-wrap: wrap;
+  }
+
+  .controls input {
+    flex: 1;
+  }
+}
+
+</style> </head> <body> <div class="app">
+
+<!-- =======================================================
+     HEADER
+     ======================================================= -->
+
+<header class="header">
+
+  <div class="header-left">
+
+    <div class="cpu-chip">
+      Z01
+    </div>
+
+    <div>
+
+      <h1 class="title">
+        Z01 CPU Simulator
+      </h1>
+
+      <div class="subtitle">
+        CPU DATAPATH &amp; MICROARCHITECTURE DEBUG INTERFACE
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="system-status">
+
+    <span class="system-status-led"></span>
+
+    SYSTEM READY
+
+  </div>
+
+</header>
+
+<!-- =======================================================
+     SIMULATOR
+     ======================================================= -->
+
+<form id="form">
+
+  <main class="board">
+
+    <!-- ===================================================
+         ASSEMBLY SOURCE
+         =================================================== -->
+
+    <section class="panel code-panel">
+
+      <div class="panel-header">
+
+        <h2 class="panel-title">
+          Assembly Source
+        </h2>
+
+        <span class="panel-tag">
+          PROGRAM
+        </span>
+
+      </div>
+
+      <div class="code-body">
+
+        <textarea
+          name="message"
+          rows="25"
+          id="textarea"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        ></textarea>
+
+      </div>
+
+    </section>
+
+    <!-- ===================================================
+         CPU / ALU
+         =================================================== -->
+
+    <section class="panel cpu-panel">
+
+      <div class="panel-header">
+
+        <h2 class="panel-title">
+          CPU Datapath
+        </h2>
+
+        <span class="panel-tag">
+          ALU / CONTROL
+        </span>
+
+      </div>
+
+      <div class="cpu-body">
+
+        <!-- ===============================================
+             LAST OPERATION
+             =============================================== -->
+
+        <div class="section">
+
+          <h3 class="section-title">
+            Last Executed Operation
+          </h3>
+
+          <div
+            class="execution-display"
+            id="last_line"
+          ></div>
+
+        </div>
+
+        <!-- ===============================================
+             ALU OPERATION
+             =============================================== -->
+
+        <div class="section">
+
+          <h3 class="section-title">
+            ALU Operation
+          </h3>
+
+          <div class="alu-display">
+
+            <span class="alu-label">
+              OP:
+            </span>
+
+            <label id="alu_op">
+            </label>
+
+          </div>
+
+        </div>
+
+        <!-- ===============================================
+             CPU DIAGRAM
+             =============================================== -->
+
+        <div class="section" style="flex: 1; min-height: 0;">
+
+          <div class="diagram-wrapper">
+
+            <div class="canvas-container">
+
+              <canvas
+                id="DiagramaCanvas"
+                width="600"
+                height="280"
+              ></canvas>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ===================================================
+         RAM
+         =================================================== -->
+
+    <section class="panel ram-panel">
+
+      <div class="panel-header">
+
+        <h2 class="panel-title">
+          RAM
+        </h2>
+
+        <span class="panel-tag">
+          MEMORY
+        </span>
+
+      </div>
+
+      <div class="tablebody">
+
+        <table id="tabela"></table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- =====================================================
+       CONTROLS
+       ===================================================== -->
+
+  <div class="controls">
+
+    <input
+      type="button"
+      id="Run"
+      value="▶ RUN"
+      onclick="run_code()"
+    />
+
+    <input
+      type="button"
+      id="Line"
+      value="⏭ STEP"
+      onclick="run_line()"
+    />
+
+    <input
+      type="button"
+      id="Reset"
+      value="↻ RESET"
+      onclick="reset_values()"
+    />
+
+  </div>
+
+</form>
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<div class="footer">
+
+  <span>
+    Z01 CPU // ASSEMBLY SIMULATOR
+  </span>
+
+  <span>
+    DATAPATH DEBUG INTERFACE
+  </span>
+
+</div>
+
+</div> 
+<!-- ======================================================= ORIGINAL CPU SIMULATOR JAVASCRIPT ======================================================= --> 
+<script src="js/cpu.js"></script>
+
 
 	<p style="font-size:10px; "> Versão original do simulador: Rafael Corsi / Eduardo Marossi 
 <a href="https://github.com/insper/z01-tools">github.com/insper/z01-tools</a>
@@ -115,7 +1050,6 @@ Developed by @renan-tr
  	<p style="font-size:10px; "> Versão emulador de Assembly online: 
 <a href="https://github.com/renan-tr">@renan-tr</a>
  </p>
-    <script src="js/cpu.js"></script>
 
 </body>
 </html>

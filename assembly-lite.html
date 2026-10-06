@@ -7,146 +7,1573 @@ layout: single
 <!--
 Developed by @renan-tr
 -->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Assembly Simulator-lite</title>
+<html lang="en"> 
+<head> 
+  <meta charset="utf-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <title>Z01 Assembly Simulator</title> <style> 
+  /* ========================================================= Z01 ASSEMBLY SIMULATOR Dark electronics / hardware interface ========================================================= */
 
-  <style>
-	* {
-	  box-sizing: border-box;
-	}
-	
-	/* Create three equal columns that floats next to each other */
-	.column {
-	  float: left;
-	  width: 33.33%;
-	  padding: 0px;
-	  height: 75vh;
-	  overflow: auto
-	}
-	
-	/* Clear floats after the columns */
-	.row:after {
-	  content: "";
-	  display: table;
-	  clear: both;
-	}
-	
-	textarea
-	{
-	  height: 99%;
-	  width: 98%;
-	  padding:1%;
-	  border:3px solid #999999;
-	}
-	.boxsizingBorder
-	{
-	  border:1px solid #999999;
-	  margin:0px 0;
-	  padding:3px;
-	}
-	.tablebody {
-	  height: 85%;
-	  overflow: auto
-	}
-	</style>
-</head>
-<body>
- 
-	<h2>Z01 Assembly Simulator</h2>
+* {
+  box-sizing: border-box;
+}
 
-	<form id="form">
-	
-		<div class="row">
-			<div class="column" style="background-color:#aaa;">
-				<textarea name="message" rows="25" id="textarea">; Code starts here</textarea>
-			</div>
-			<div class="column" style="background-color:#bbb;">
-				<h3>RAM</h3>
-			<div class="tablebody">
-			<table id="tabela"></table>  
-			</div> 
-			</div>
-			<div class="column" style="background-color:#ccc;">
-			<b>Last executed line:</b>
-			<label id="last_line"></label>
-			<p style="font-size:16px; "> <b>Registers:</b></p>
-				<table>
-					<tr>
-					  <td><b>Reg D</b></td>
-					  <td><label id="regD_value"></label></td>
-					</tr>
-					<tr>
-					  <td><b>Reg A</b></td>
-					  <td><label id="regA_value"></label></td>
-					</tr>
-				</table>  
-				<br>
-			<p style="font-size:16px; "> <b>SWs</b></p>
-			<input type="checkbox" id="SW10" name="SW10" value="SW10">
-			<input type="checkbox" id="SW9" name="SW9" value="SW9">
-			<input type="checkbox" id="SW8" name="SW8" value="SW8">
-			<input type="checkbox" id="SW7" name="SW7" value="SW7">
-			<input type="checkbox" id="SW6" name="SW6" value="SW6">
-			<input type="checkbox" id="SW5" name="SW5" value="SW5">
-			<input type="checkbox" id="SW4" name="SW4" value="SW4">
-			<input type="checkbox" id="SW3" name="SW3" value="SW3">
-			<input type="checkbox" id="SW2" name="SW2" value="SW2">
-			<input type="checkbox" id="SW1" name="SW1" value="SW1">
-			<p style="font-size:16px; "> <b>LEDs</b></p>
-			<input type="checkbox" id="LED10" name="LED10" value="LED10" disabled="True">
-			<input type="checkbox" id="LED9" name="LED9" value="LED9" disabled="True">
-			<input type="checkbox" id="LED8" name="LED8" value="LED8" disabled="True">
-			<input type="checkbox" id="LED7" name="LED7" value="LED7" disabled="True">
-			<input type="checkbox" id="LED6" name="LED6" value="LED6" disabled="True">
-			<input type="checkbox" id="LED5" name="LED5" value="LED5" disabled="True">
-			<input type="checkbox" id="LED4" name="LED4" value="LED4" disabled="True">
-			<input type="checkbox" id="LED3" name="LED3" value="LED3" disabled="True">
-			<input type="checkbox" id="LED2" name="LED2" value="LED2" disabled="True">
-			<input type="checkbox" id="LED1" name="LED1" value="LED1" disabled="True">
-			<p style="font-size:16px; "> <b>GPIO IN</b></p>
-			<input type="checkbox" id="GPI16" name="GPI16" value="GPI16">
-			<input type="checkbox" id="GPI15" name="GPI15" value="GPI15">
-			<input type="checkbox" id="GPI14" name="GPI14" value="GPI14">
-			<input type="checkbox" id="GPI13" name="GPI13" value="GPI13">
-			<input type="checkbox" id="GPI12" name="GPI12" value="GPI12">
-			<input type="checkbox" id="GPI11" name="GPI11" value="GPI11">
-			<input type="checkbox" id="GPI10" name="GPI10" value="GPI10">
-			<input type="checkbox" id="GPI9" name="GPI9" value="GPI9">
-			<input type="checkbox" id="GPI8" name="GPI8" value="GPI8">
-			<input type="checkbox" id="GPI7" name="GPI7" value="GPI7">
-			<input type="checkbox" id="GPI6" name="GPI6" value="GPI6">
-			<input type="checkbox" id="GPI5" name="GPI5" value="GPI5">
-			<input type="checkbox" id="GPI4" name="GPI4" value="GPI4">
-			<input type="checkbox" id="GPI3" name="GPI3" value="GPI3">
-			<input type="checkbox" id="GPI2" name="GPI2" value="GPI2">
-			<input type="checkbox" id="GPI1" name="GPI1" value="GPI1">
-			<p style="font-size:16px; "> <b>GPIO OUT</b></p>
-			<input type="checkbox" id="GPO16" name="GPO16" value="GPO16" disabled="True">
-			<input type="checkbox" id="GPO15" name="GPO15" value="GPO15" disabled="True">
-			<input type="checkbox" id="GPO14" name="GPO14" value="GPO14" disabled="True">
-			<input type="checkbox" id="GPO13" name="GPO13" value="GPO13" disabled="True">
-			<input type="checkbox" id="GPO12" name="GPO12" value="GPO12" disabled="True">
-			<input type="checkbox" id="GPO11" name="GPO11" value="GPO11" disabled="True">
-			<input type="checkbox" id="GPO10" name="GPO10" value="GPO10" disabled="True">
-			<input type="checkbox" id="GPO9" name="GPO9" value="GPO9" disabled="True">
-			<input type="checkbox" id="GPO8" name="GPO8" value="GPO8" disabled="True">
-			<input type="checkbox" id="GPO7" name="GPO7" value="GPO7" disabled="True">
-			<input type="checkbox" id="GPO6" name="GPO6" value="GPO6" disabled="True">
-			<input type="checkbox" id="GPO5" name="GPO5" value="GPO5" disabled="True">
-			<input type="checkbox" id="GPO4" name="GPO4" value="GPO4" disabled="True">
-			<input type="checkbox" id="GPO3" name="GPO3" value="GPO3" disabled="True">
-			<input type="checkbox" id="GPO2" name="GPO2" value="GPO2" disabled="True">
-			<input type="checkbox" id="GPO1" name="GPO1" value="GPO1" disabled="True">
-			</div>
-		  </div>
-		
-		<br><br>
-		<input type="button" id="Run" value="Run" onclick="run_code()"/>
-		<input type="button" id="Line" value="Line" onclick="run_line()"/>	
-		<input type="button" id="Reset" value="Reset" onclick="reset_values()"/>	
-	  </form>
+:root {
+  --bg: #080b0e;
+  --panel: #11171d;
+  --panel-light: #171f26;
+  --panel-dark: #0b1014;
+
+  --border: #2a3740;
+  --border-light: #3c4b55;
+
+  --text: #d8e1e6;
+  --muted: #738691;
+
+  --green: #39ff88;
+  --green-dark: #176b3c;
+
+  --red: #ff4040;
+  --red-dark: #521c1c;
+
+  --yellow: #ffd447;
+  --blue: #43b9ff;
+  --cyan: #39e6ff;
+
+  --shadow:
+    0 8px 25px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  padding: 18px;
+
+  background:
+    radial-gradient(
+      ellipse at top,
+      #18232c 0%,
+      #0b0f13 42%,
+      #060809 100%
+    );
+
+  color: var(--text);
+
+  font-family:
+    "Segoe UI",
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+
+.app {
+  width: 100%;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 64px;
+
+  margin-bottom: 14px;
+  padding: 10px 16px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #182129 0%,
+      #10171d 100%
+    );
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  box-shadow: var(--shadow);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.cpu-chip {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #202a31 0,
+      #202a31 3px,
+      #151d23 3px,
+      #151d23 6px
+    );
+
+  border: 2px solid #4c5d67;
+  border-radius: 4px;
+
+  color: var(--cyan);
+
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: bold;
+
+  box-shadow:
+    inset 0 0 12px #000,
+    0 0 10px rgba(57, 230, 255, .12);
+}
+
+.title {
+  margin: 0;
+
+  color: #edf4f7;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  margin-top: 3px;
+
+  color: var(--muted);
+
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: .6px;
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--green);
+
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.system-status-led {
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  background: var(--green);
+
+  box-shadow:
+    0 0 5px var(--green),
+    0 0 12px rgba(57, 255, 136, .5);
+}
+
+/* =========================================================
+   MAIN THREE-COLUMN BOARD
+   ========================================================= */
+
+.board {
+  display: grid;
+
+  grid-template-columns:
+    minmax(300px, 1.1fr)
+    minmax(280px, .9fr)
+    minmax(330px, 1fr);
+
+  gap: 14px;
+}
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.panel {
+  min-width: 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--panel-light),
+      var(--panel)
+    );
+
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  box-shadow: var(--shadow);
+
+  overflow: hidden;
+}
+
+.panel-header {
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 13px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #1b252d,
+      #12191f
+    );
+
+  border-bottom: 1px solid var(--border);
+}
+
+.panel-title {
+  margin: 0;
+
+  color: #cbd6dc;
+
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.panel-tag {
+  color: #536570;
+
+  font-family: monospace;
+  font-size: 9px;
+}
+
+/* =========================================================
+   CODE PANEL
+   ========================================================= */
+
+.code-panel {
+  height: 72vh;
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.code-body {
+  flex: 1;
+  min-height: 0;
+}
+
+textarea {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 450px;
+
+  padding: 15px;
+
+  resize: none;
+
+  border: 0;
+  outline: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      #080d11,
+      #0b1116
+    );
+
+  color: #baffd1;
+
+  font-family:
+    "Courier New",
+    Courier,
+    monospace;
+
+  font-size: 14px;
+  line-height: 1.55;
+
+  caret-color: var(--green);
+
+  tab-size: 4;
+}
+
+textarea::selection {
+  background: #14572f;
+}
+
+textarea:focus {
+  box-shadow:
+    inset 0 0 0 1px rgba(57, 255, 136, .35);
+}
+
+/* =========================================================
+   RAM PANEL
+   ========================================================= */
+
+.ram-panel {
+  height: 72vh;
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.tablebody {
+  flex: 1;
+
+  overflow: auto;
+
+  background: #090e12;
+}
+
+#tabela {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  color: #b9c7ce;
+
+  font-family: monospace;
+  font-size: 12px;
+}
+
+#tabela th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  padding: 8px;
+
+  background: #19242c;
+
+  color: var(--cyan);
+
+  border-bottom: 1px solid var(--border-light);
+
+  text-align: left;
+}
+
+#tabela td {
+  padding: 6px 8px;
+
+  border-bottom: 1px solid #192229;
+}
+
+#tabela tr:hover td {
+  background: #162129;
+
+  color: white;
+}
+
+/* =========================================================
+   CPU / IO PANEL
+   ========================================================= */
+
+.io-panel {
+  height: 72vh;
+  min-height: 500px;
+
+  overflow-y: auto;
+}
+
+.io-body {
+  padding: 13px;
+}
+
+.section {
+  margin-bottom: 18px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin: 0 0 8px;
+
+  color: #8296a1;
+
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: bold;
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.section-title::before {
+  content: "";
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--cyan);
+
+  box-shadow: 0 0 7px var(--cyan);
+}
+
+/* =========================================================
+   LAST EXECUTED LINE
+   ========================================================= */
+
+.execution-display {
+  min-height: 39px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 8px 11px;
+
+  background: #070b0e;
+
+  border: 1px solid #293740;
+  border-radius: 4px;
+
+  color: var(--green);
+
+  font-family: monospace;
+  font-size: 12px;
+
+  box-shadow:
+    inset 0 0 15px rgba(0, 0, 0, .6);
+}
+
+/* =========================================================
+   REGISTERS
+   ========================================================= */
+
+.registers {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 8px;
+}
+
+.register {
+  padding: 9px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #11191f,
+      #080d11
+    );
+
+  border: 1px solid #2b3942;
+  border-radius: 4px;
+}
+
+.register-name {
+  margin-bottom: 5px;
+
+  color: #71848e;
+
+  font-family: monospace;
+  font-size: 9px;
+
+  letter-spacing: 1px;
+}
+
+.register-value {
+  color: var(--green);
+
+  font-family: "Courier New", monospace;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  letter-spacing: 2px;
+
+  text-shadow:
+    0 0 5px rgba(57, 255, 136, .8),
+    0 0 12px rgba(57, 255, 136, .3);
+}
+
+/* =========================================================
+   HARDWARE INPUT BANK
+   ========================================================= */
+
+.hardware-bank {
+  padding: 10px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #171f25,
+      #0b1014
+    );
+
+  border: 1px solid #2d3b43;
+  border-radius: 5px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    inset 0 -8px 15px rgba(0,0,0,.25);
+}
+
+.bit-labels {
+  display: flex;
+
+  margin-bottom: 4px;
+}
+
+.bit-label {
+  flex: 1;
+
+  color: #60737e;
+
+  text-align: center;
+
+  font-family: monospace;
+  font-size: 8px;
+}
+
+.bit-row {
+  display: flex;
+
+  gap: 3px;
+}
+
+/* =========================================================
+   DIP SWITCH
+   ========================================================= */
+
+.dip {
+  flex: 1;
+
+  min-width: 0;
+  height: 43px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #090d10;
+
+  border: 1px solid #28353d;
+  border-radius: 3px;
+}
+
+.dip input {
+  position: absolute;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.dip-switch {
+  width: 14px;
+  height: 27px;
+
+  position: relative;
+
+  display: block;
+
+  background:
+    linear-gradient(
+      90deg,
+      #343d42,
+      #6a757a,
+      #30383c
+    );
+
+  border: 1px solid #1b2226;
+  border-radius: 3px;
+
+  transform: translateY(4px);
+
+  cursor: pointer;
+
+  transition: .12s;
+}
+
+.dip-switch::after {
+  content: "";
+
+  position: absolute;
+
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+
+  height: 10px;
+
+  background: #171d20;
+
+  border-radius: 2px;
+}
+
+.dip input:checked + .dip-switch {
+  transform: translateY(-4px);
+
+  background:
+    linear-gradient(
+      90deg,
+      #176e3d,
+      #51ff99,
+      #176e3d
+    );
+
+  box-shadow:
+    0 0 5px rgba(57,255,136,.8),
+    0 0 13px rgba(57,255,136,.3);
+}
+
+.dip input:checked + .dip-switch::after {
+  background: #092c19;
+}
+
+/* =========================================================
+   LED BANK
+   ========================================================= */
+
+.led-bank {
+  padding: 10px;
+
+  background: #0a0f13;
+
+  border: 1px solid #29363e;
+  border-radius: 5px;
+}
+
+.led-row {
+  display: flex;
+
+  gap: 4px;
+}
+
+.led-cell {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 4px;
+}
+
+.led-cell input {
+  position: absolute;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.led {
+  width: 13px;
+  height: 13px;
+
+  display: block;
+
+  border-radius: 50%;
+
+  background: #251113;
+
+  border: 1px solid #4a2023;
+
+  box-shadow:
+    inset 0 0 3px #000;
+
+  transition: .12s;
+}
+
+.led-cell input:checked + .led {
+  background: var(--red);
+
+  border-color: #ff8888;
+
+  box-shadow:
+    0 0 5px rgba(255,64,64,.9),
+    0 0 15px rgba(255,64,64,.45);
+}
+
+.led-number {
+  color: #536670;
+
+  font-family: monospace;
+  font-size: 8px;
+}
+
+/* =========================================================
+   GPIO INPUT / OUTPUT
+   ========================================================= */
+
+.gpio-bank {
+  padding: 10px;
+
+  background: #0c1216;
+
+  border: 1px solid #293740;
+  border-radius: 5px;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.controls {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.controls input {
+  min-width: 100px;
+
+  padding: 10px 18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #232e36,
+      #11171c
+    );
+
+  border: 1px solid #3c4c56;
+  border-radius: 4px;
+
+  color: #cbd5da;
+
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    0 3px 8px rgba(0,0,0,.4);
+
+  transition: .12s;
+}
+
+.controls input:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #2c3a43,
+      #172026
+    );
+
+  border-color: #607581;
+
+  color: white;
+}
+
+.controls input:active {
+  transform: translateY(1px);
+}
+
+#Run {
+  color: var(--green);
+  border-color: #286b46;
+}
+
+#Line {
+  color: var(--yellow);
+  border-color: #665723;
+}
+
+#Reset {
+  color: #ff7777;
+  border-color: #672d2d;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 10px;
+
+  color: #4e616b;
+
+  font-family: monospace;
+  font-size: 9px;
+}
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080c0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2c3a43;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #435661;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+  .board {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .io-panel {
+    grid-column: 1 / -1;
+
+    height: auto;
+    max-height: none;
+  }
+
+  .code-panel,
+  .ram-panel {
+    height: 60vh;
+  }
+}
+
+@media (max-width: 700px) {
+
+  body {
+    padding: 8px;
+  }
+
+  .header {
+    padding: 9px 11px;
+  }
+
+  .cpu-chip {
+    width: 38px;
+    height: 38px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .subtitle {
+    font-size: 8px;
+  }
+
+  .system-status {
+    display: none;
+  }
+
+  .board {
+    grid-template-columns: 1fr;
+  }
+
+  .io-panel {
+    grid-column: auto;
+  }
+
+  .code-panel,
+  .ram-panel,
+  .io-panel {
+    height: auto;
+    min-height: 420px;
+  }
+
+  .registers {
+    grid-template-columns: 1fr;
+  }
+
+  .controls {
+    flex-wrap: wrap;
+  }
+
+  .controls input {
+    flex: 1;
+  }
+}
+
+</style> </head> <body> <div class="app">
+
+<!-- =======================================================
+     HEADER
+     ======================================================= -->
+
+<header class="header">
+
+  <div class="header-left">
+
+    <div class="cpu-chip">
+      Z01
+    </div>
+
+    <div>
+      <h1 class="title">
+        Z01 Assembly Simulator
+      </h1>
+
+      <div class="subtitle">
+        CPU DEVELOPMENT &amp; HARDWARE DEBUG INTERFACE
+      </div>
+    </div>
+
+  </div>
+
+  <div class="system-status">
+    <span class="system-status-led"></span>
+    SYSTEM READY
+  </div>
+
+</header>
+
+<!-- =======================================================
+     SIMULATOR
+     ======================================================= -->
+
+<form id="form">
+
+  <main class="board">
+
+    <!-- ===================================================
+         ASSEMBLY SOURCE
+         =================================================== -->
+
+    <section class="panel code-panel">
+
+      <div class="panel-header">
+
+        <h2 class="panel-title">
+          Assembly Source
+        </h2>
+
+        <span class="panel-tag">
+          CODE
+        </span>
+
+      </div>
+
+      <div class="code-body">
+
+        <textarea
+          name="message"
+          id="textarea"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        >; Code starts here</textarea>
+
+      </div>
+
+    </section>
+
+    <!-- ===================================================
+         RAM
+         =================================================== -->
+
+    <section class="panel ram-panel">
+
+      <div class="panel-header">
+
+        <h2 class="panel-title">
+          RAM
+        </h2>
+
+        <span class="panel-tag">
+          MEMORY
+        </span>
+
+      </div>
+
+      <div class="tablebody">
+
+        <table id="tabela"></table>
+
+      </div>
+
+    </section>
+
+    <!-- ===================================================
+         CPU / I/O
+         =================================================== -->
+
+    <section class="panel io-panel">
+
+      <div class="panel-header">
+
+        <h2 class="panel-title">
+          CPU / I/O
+        </h2>
+
+        <span class="panel-tag">
+          HARDWARE
+        </span>
+
+      </div>
+
+      <div class="io-body">
+
+        <!-- ===============================================
+             LAST EXECUTED LINE
+             =============================================== -->
+
+        <div class="section">
+
+          <h3 class="section-title">
+            Last Executed Line
+          </h3>
+
+          <div
+            class="execution-display"
+            id="last_line"
+          ></div>
+
+        </div>
+
+        <!-- ===============================================
+             REGISTERS
+             =============================================== -->
+
+        <div class="section">
+
+          <h3 class="section-title">
+            CPU Registers
+          </h3>
+
+          <div class="registers">
+
+            <div class="register">
+
+              <div class="register-name">
+                REGISTER D
+              </div>
+
+              <label
+                class="register-value"
+                id="regD_value"
+              ></label>
+
+            </div>
+
+            <div class="register">
+
+              <div class="register-name">
+                REGISTER A
+              </div>
+
+              <label
+                class="register-value"
+                id="regA_value"
+              ></label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===============================================
+             SWITCHES
+             =============================================== -->
+
+        <div class="section">
+
+          <h3 class="section-title">
+            Switches
+          </h3>
+
+          <div class="hardware-bank">
+
+            <div class="bit-labels">
+
+              <span class="bit-label">10</span>
+              <span class="bit-label">9</span>
+              <span class="bit-label">8</span>
+              <span class="bit-label">7</span>
+              <span class="bit-label">6</span>
+              <span class="bit-label">5</span>
+              <span class="bit-label">4</span>
+              <span class="bit-label">3</span>
+              <span class="bit-label">2</span>
+              <span class="bit-label">1</span>
+
+            </div>
+
+            <div class="bit-row">
+
+              <div class="dip">
+                <input type="checkbox" id="SW10" name="SW10" value="SW10">
+                <label class="dip-switch" for="SW10"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW9" name="SW9" value="SW9">
+                <label class="dip-switch" for="SW9"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW8" name="SW8" value="SW8">
+                <label class="dip-switch" for="SW8"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW7" name="SW7" value="SW7">
+                <label class="dip-switch" for="SW7"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW6" name="SW6" value="SW6">
+                <label class="dip-switch" for="SW6"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW5" name="SW5" value="SW5">
+                <label class="dip-switch" for="SW5"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW4" name="SW4" value="SW4">
+                <label class="dip-switch" for="SW4"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW3" name="SW3" value="SW3">
+                <label class="dip-switch" for="SW3"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW2" name="SW2" value="SW2">
+                <label class="dip-switch" for="SW2"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="SW1" name="SW1" value="SW1">
+                <label class="dip-switch" for="SW1"></label>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===============================================
+             LEDS
+             =============================================== -->
+
+        <div class="section">
+
+          <h3 class="section-title">
+            LEDs
+          </h3>
+
+          <div class="led-bank">
+
+            <div class="led-row">
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED10" name="LED10" value="LED10" disabled>
+                <label class="led" for="LED10"></label>
+                <span class="led-number">10</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED9" name="LED9" value="LED9" disabled>
+                <label class="led" for="LED9"></label>
+                <span class="led-number">9</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED8" name="LED8" value="LED8" disabled>
+                <label class="led" for="LED8"></label>
+                <span class="led-number">8</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED7" name="LED7" value="LED7" disabled>
+                <label class="led" for="LED7"></label>
+                <span class="led-number">7</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED6" name="LED6" value="LED6" disabled>
+                <label class="led" for="LED6"></label>
+                <span class="led-number">6</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED5" name="LED5" value="LED5" disabled>
+                <label class="led" for="LED5"></label>
+                <span class="led-number">5</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED4" name="LED4" value="LED4" disabled>
+                <label class="led" for="LED4"></label>
+                <span class="led-number">4</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED3" name="LED3" value="LED3" disabled>
+                <label class="led" for="LED3"></label>
+                <span class="led-number">3</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED2" name="LED2" value="LED2" disabled>
+                <label class="led" for="LED2"></label>
+                <span class="led-number">2</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="LED1" name="LED1" value="LED1" disabled>
+                <label class="led" for="LED1"></label>
+                <span class="led-number">1</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===============================================
+             GPIO INPUT
+             =============================================== -->
+
+        <div class="section">
+
+          <h3 class="section-title">
+            GPIO IN
+          </h3>
+
+          <div class="hardware-bank">
+
+            <div class="bit-labels">
+
+              <span class="bit-label">16</span>
+              <span class="bit-label">15</span>
+              <span class="bit-label">14</span>
+              <span class="bit-label">13</span>
+              <span class="bit-label">12</span>
+              <span class="bit-label">11</span>
+              <span class="bit-label">10</span>
+              <span class="bit-label">9</span>
+              <span class="bit-label">8</span>
+              <span class="bit-label">7</span>
+              <span class="bit-label">6</span>
+              <span class="bit-label">5</span>
+              <span class="bit-label">4</span>
+              <span class="bit-label">3</span>
+              <span class="bit-label">2</span>
+              <span class="bit-label">1</span>
+
+            </div>
+
+            <div class="bit-row">
+
+              <div class="dip">
+                <input type="checkbox" id="GPI16" name="GPI16" value="GPI16">
+                <label class="dip-switch" for="GPI16"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI15" name="GPI15" value="GPI15">
+                <label class="dip-switch" for="GPI15"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI14" name="GPI14" value="GPI14">
+                <label class="dip-switch" for="GPI14"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI13" name="GPI13" value="GPI13">
+                <label class="dip-switch" for="GPI13"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI12" name="GPI12" value="GPI12">
+                <label class="dip-switch" for="GPI12"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI11" name="GPI11" value="GPI11">
+                <label class="dip-switch" for="GPI11"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI10" name="GPI10" value="GPI10">
+                <label class="dip-switch" for="GPI10"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI9" name="GPI9" value="GPI9">
+                <label class="dip-switch" for="GPI9"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI8" name="GPI8" value="GPI8">
+                <label class="dip-switch" for="GPI8"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI7" name="GPI7" value="GPI7">
+                <label class="dip-switch" for="GPI7"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI6" name="GPI6" value="GPI6">
+                <label class="dip-switch" for="GPI6"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI5" name="GPI5" value="GPI5">
+                <label class="dip-switch" for="GPI5"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI4" name="GPI4" value="GPI4">
+                <label class="dip-switch" for="GPI4"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI3" name="GPI3" value="GPI3">
+                <label class="dip-switch" for="GPI3"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI2" name="GPI2" value="GPI2">
+                <label class="dip-switch" for="GPI2"></label>
+              </div>
+
+              <div class="dip">
+                <input type="checkbox" id="GPI1" name="GPI1" value="GPI1">
+                <label class="dip-switch" for="GPI1"></label>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===============================================
+             GPIO OUTPUT
+             =============================================== -->
+
+        <div class="section">
+
+          <h3 class="section-title">
+            GPIO OUT
+          </h3>
+
+          <div class="led-bank">
+
+            <div class="led-row">
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO16" name="GPO16" value="GPO16" disabled>
+                <label class="led" for="GPO16"></label>
+                <span class="led-number">16</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO15" name="GPO15" value="GPO15" disabled>
+                <label class="led" for="GPO15"></label>
+                <span class="led-number">15</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO14" name="GPO14" value="GPO14" disabled>
+                <label class="led" for="GPO14"></label>
+                <span class="led-number">14</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO13" name="GPO13" value="GPO13" disabled>
+                <label class="led" for="GPO13"></label>
+                <span class="led-number">13</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO12" name="GPO12" value="GPO12" disabled>
+                <label class="led" for="GPO12"></label>
+                <span class="led-number">12</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO11" name="GPO11" value="GPO11" disabled>
+                <label class="led" for="GPO11"></label>
+                <span class="led-number">11</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO10" name="GPO10" value="GPO10" disabled>
+                <label class="led" for="GPO10"></label>
+                <span class="led-number">10</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO9" name="GPO9" value="GPO9" disabled>
+                <label class="led" for="GPO9"></label>
+                <span class="led-number">9</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO8" name="GPO8" value="GPO8" disabled>
+                <label class="led" for="GPO8"></label>
+                <span class="led-number">8</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO7" name="GPO7" value="GPO7" disabled>
+                <label class="led" for="GPO7"></label>
+                <span class="led-number">7</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO6" name="GPO6" value="GPO6" disabled>
+                <label class="led" for="GPO6"></label>
+                <span class="led-number">6</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO5" name="GPO5" value="GPO5" disabled>
+                <label class="led" for="GPO5"></label>
+                <span class="led-number">5</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO4" name="GPO4" value="GPO4" disabled>
+                <label class="led" for="GPO4"></label>
+                <span class="led-number">4</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO3" name="GPO3" value="GPO3" disabled>
+                <label class="led" for="GPO3"></label>
+                <span class="led-number">3</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO2" name="GPO2" value="GPO2" disabled>
+                <label class="led" for="GPO2"></label>
+                <span class="led-number">2</span>
+              </div>
+
+              <div class="led-cell">
+                <input type="checkbox" id="GPO1" name="GPO1" value="GPO1" disabled>
+                <label class="led" for="GPO1"></label>
+                <span class="led-number">1</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- =====================================================
+       CONTROLS
+       ===================================================== -->
+
+  <div class="controls">
+
+    <input
+      type="button"
+      id="Run"
+      value="▶ RUN"
+      onclick="run_code()"
+    >
+
+    <input
+      type="button"
+      id="Line"
+      value="⏭ STEP"
+      onclick="run_line()"
+    >
+
+    <input
+      type="button"
+      id="Reset"
+      value="↻ RESET"
+      onclick="reset_values()"
+    >
+
+  </div>
+
+</form>
+
+<!-- =====================================================
+     FOOTER
+     ===================================================== -->
+
+<div class="footer">
+
+  <span>
+    Z01 CPU // ASSEMBLY SIMULATOR
+  </span>
+
+  <span>
+    HARDWARE DEBUG INTERFACE
+  </span>
+
+</div>
+
+</div> 
+<!-- ======================================================= ORIGINAL JAVASCRIPT ======================================================= --> 
+<script src="js/assembly-lite.js"></script> 
 
 	<p style="font-size:10px; "> Versão original do simulador: Rafael Corsi / Eduardo Marossi 
 <a href="https://github.com/insper/z01-tools">github.com/insper/z01-tools</a>
@@ -157,7 +1584,6 @@ Developed by @renan-tr
  	<p style="font-size:10px; "> Versão emulador de Assembly online: 
 <a href="https://github.com/renan-tr">@renan-tr</a>
  </p>
-    <script src="js/assembly-lite.js"></script>
 
 </body>
 </html>

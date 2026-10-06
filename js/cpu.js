@@ -50,7 +50,7 @@ function run_code(){
 			break;
 		}
 		document.getElementById("last_line").innerText = code[line_number.indexOf(regPC)];
-		execute_line(code[line_number.indexOf(regPC)]);			
+		execute_line(code[line_number.indexOf(regPC)]);	
 	}
 	//showing
 	for(i=0;i<no_RAM;i++) {
@@ -73,7 +73,7 @@ function run_line(){
 
 	//executing		
 	if (line_number.indexOf(regPC) != -1){
-		execute_line(code[line_number.indexOf(regPC)]);	
+		execute_line(code[line_number.indexOf(regPC)]);
 	}		
 			
 	//showing
@@ -142,6 +142,7 @@ function execute_line(line) {
 			let value = parseInt(line.substring(2), 2);
 			regA = value;
 			regPC += 1;
+			document.getElementById("last_line").innerText = line;
 			document.getElementById("alu_op").innerText = "";
 		} else if (tipo === "1"){
 			let operation = line.substring(4 ,11);
@@ -770,5 +771,4 @@ function draw_reg(ctx, fromX, fromY, width, heigth, linecolor, lineWidth, fillco
 	// Restore the saved drawing state
 	ctx.restore();	
 }
-
 
