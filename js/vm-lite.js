@@ -344,20 +344,52 @@ function execute_line(line) {
 				regPC += 1;
 				break;
 			case "gt":
-				if (((RAM[SP-2] - RAM[SP-1]) < 32768) && ((RAM[SP-2] - RAM[SP-1]) > 0)) {
-					RAM[SP-2] = 65535;
-				} else {
-					RAM[SP-2] = 0;
-				}
+			    if  (RAM[SP-2] >= 32768)  {
+			        if  (RAM[SP-1] >= 32768)  {
+			            if ((RAM[SP-2] - RAM[SP-1]) > 0) {
+					        RAM[SP-2] = 65535;
+				        } else {
+					        RAM[SP-2] = 0;
+				        }   
+			        } else {
+			        	RAM[SP-2] = 0; 
+			        }			    
+			    } else {
+			        if  (RAM[SP-1] < 32768)  {
+			            if ((RAM[SP-2] - RAM[SP-1]) > 0) {
+					        RAM[SP-2] = 65535;
+				        } else {
+					        RAM[SP-2] = 0;
+				        }   
+			        } else {
+			        	RAM[SP-2] = 65535; 
+			        }			    
+			    }
 				RAM[0] = SP - 1;
 				regPC += 1;
 				break;
 			case "lt":
-				if ((RAM[SP-2] - RAM[SP-1]) < 0) {
-					RAM[SP-2] = 65535;
-				} else {
-					RAM[SP-2] = 0;
-				}
+				if  (RAM[SP-2] >= 32768)  {
+			        if  (RAM[SP-1] >= 32768)  {
+			            if ((RAM[SP-2] - RAM[SP-1]) >= 0) {
+					        RAM[SP-2] = 0;
+				        } else {
+					        RAM[SP-2] = 65535;
+				        }   
+			        } else {
+			        	RAM[SP-2] = 65535; 
+			        }			    
+			    } else {
+			        if  (RAM[SP-1] < 32768)  {
+			            if ((RAM[SP-2] - RAM[SP-1]) >= 0) {
+					        RAM[SP-2] = 0;
+				        } else {
+					        RAM[SP-2] = 65535;
+				        }   
+			        } else {
+			        	RAM[SP-2] = 0; 
+			        }			    
+			    }
 				RAM[0] = SP - 1;
 				regPC += 1;
 				break;
